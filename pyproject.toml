@@ -1,0 +1,8 @@
+[project]
+name = "python-syntax-notes"
+version = "0.1.0"
+description = "Simple Flask app for saving Python syntax notes."
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.0",
+]
