@@ -10,6 +10,7 @@ venv/
 instance/
 *.db
 *.sqlite3
+*.lock
 
 # Environment files
 .env
@@ -18,3 +19,4 @@ instance/
 .DS_Store
 .vscode/
 .idea/
+
