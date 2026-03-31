@@ -61,6 +61,31 @@
             background: #c0392b;
         }
 
+        a.button-link {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .actions {
+            margin-top: 14px;
+        }
+
+        .actions form,
+        .actions a {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .actions form {
+            margin: 0 0 0 8px;
+        }
+
         pre {
             background: #f0f3f7;
             padding: 12px;
@@ -74,15 +99,21 @@
     <p>This small app lets you save Python syntax and write down what it does.</p>
 
     <div class="karte">
-        <h2>New Note</h2>
-        <form action="{{ url_for('add_note') }}" method="post">
+        <!-- Step 7: Reuse the same form for create and update.
+             The route name now uses CRUD language: create instead of add. -->
+        <h2>{% if note_to_edit %}Edit Note{% else %}Create Note{% endif %}</h2>
+        <form action="{% if note_to_edit %}{{ url_for('update_note', note_id=note_to_edit['id']) }}{% else %}{{ url_for('create_note') }}{% endif %}" method="post">
             <label for="syntax">Python Syntax</label>
-            <textarea id="syntax" name="syntax" placeholder="e.g. for i in range(5):" required></textarea>
+            <textarea id="syntax" name="syntax" placeholder="e.g. for i in range(5):" required>{% if note_to_edit %}{{ note_to_edit["syntax"] }}{% endif %}</textarea>
 
             <label for="explanation">What does it do?</label>
-            <textarea id="explanation" name="explanation" placeholder="e.g. Runs a loop 5 times." required></textarea>
+            <textarea id="explanation" name="explanation" placeholder="e.g. Runs a loop 5 times." required>{% if note_to_edit %}{{ note_to_edit["explanation"] }}{% endif %}</textarea>
 
-            <button type="submit">Save</button>
+            <button type="submit">{% if note_to_edit %}Update Note{% else %}Create Note{% endif %}</button>
+
+            {% if note_to_edit %}
+                <a class="button-link" href="{{ url_for('index') }}">Cancel</a>
+            {% endif %}
         </form>
     </div>
 
@@ -98,9 +129,15 @@
                     <h3>Explanation</h3>
                     <p>{{ note["explanation"] }}</p>
 
-                    <form action="{{ url_for('delete_note', note_id=note['id']) }}" method="post">
-                        <button class="delete" type="submit">Delete</button>
-                    </form>
+                    <!-- Step 8: Keep the action links together.
+                         This makes the update and delete actions easier to compare. -->
+                    <div class="actions">
+                        <a class="button-link" href="{{ url_for('edit_note', note_id=note['id']) }}">Edit</a>
+
+                        <form action="{{ url_for('delete_note', note_id=note['id']) }}" method="post">
+                            <button class="delete" type="submit">Delete</button>
+                        </form>
+                    </div>
                 </div>
             {% endfor %}
         {% else %}

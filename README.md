@@ -18,10 +18,15 @@ Then open `http://127.0.0.1:5000` in your browser.
 
 ## What the app does
 
-- Save Python syntax
-- Save a simple explanation for it
-- Read entries from a SQLite database
+- Create Python syntax notes
+- Read notes from a SQLite database
+- Update existing entries
 - Delete entries
+
+## Learning note
+
+The CRUD structure and the edit feature are explained directly in the code with numbered comments.
+Follow the `Step 1`, `Step 2`, and later comments to learn the change piece by piece.
 
 ## Important files
 
