@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Syntax Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 16px;
+            background: #f5f5f5;
+        }
+
+        h1, h2 {
+            color: #222;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 14px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #0b6efd;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button.delete {
+            background: #c0392b;
+        }
+
+        a.button-link {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .actions {
+            margin-top: 14px;
+        }
+
+        .actions form,
+        .actions a {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .actions form {
+            margin: 0 0 0 8px;
+        }
+
+        pre {
+            background: #f0f3f7;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Python Syntax Notes</h1>
+    <p>Lesson 5 adds sorting to the filtered note list.</p>
+
+    <div class="card">
+        <h2>{% if note_to_edit %}Edit Note{% else %}Create Note{% endif %}</h2>
+        <form action="{% if note_to_edit %}{{ url_for('update_note', note_id=note_to_edit['id']) }}{% else %}{{ url_for('create_note') }}{% endif %}" method="post">
+            <label for="syntax">Python Syntax</label>
+            <textarea id="syntax" name="syntax" placeholder="e.g. for i in range(5):" required>{% if note_to_edit %}{{ note_to_edit["syntax"] }}{% endif %}</textarea>
+
+            <label for="explanation">What does it do?</label>
+            <textarea id="explanation" name="explanation" placeholder="e.g. Runs a loop 5 times." required>{% if note_to_edit %}{{ note_to_edit["explanation"] }}{% endif %}</textarea>
+
+            <button type="submit">{% if note_to_edit %}Update Note{% else %}Create Note{% endif %}</button>
+
+            {% if note_to_edit %}
+                <a class="button-link" href="{{ url_for('index') }}">Cancel</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Search and Sort</h2>
+        <!-- Step 3: Extend the GET form with a select field for sorting.
+             Search and sort now work together on the same list page. -->
+        <form action="{{ url_for('index') }}" method="get">
+            <label for="q">Search Text</label>
+            <textarea id="q" name="q" placeholder="e.g. loop or print">{{ search_query }}</textarea>
+
+            <label for="sort">Sort Order</label>
+            <select id="sort" name="sort">
+                <option value="newest" {% if sort_query == "newest" %}selected{% endif %}>Newest First</option>
+                <option value="oldest" {% if sort_query == "oldest" %}selected{% endif %}>Oldest First</option>
+                <option value="syntax" {% if sort_query == "syntax" %}selected{% endif %}>Syntax A-Z</option>
+            </select>
+
+            <button type="submit">Apply</button>
+
+            {% if search_query or sort_query != "newest" %}
+                <a class="button-link" href="{{ url_for('index') }}">Reset</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Saved Notes</h2>
+
+        {% if notes %}
+            {% for note in notes %}
+                <div class="card">
+                    <h3>Syntax</h3>
+                    <pre>{{ note["syntax"] }}</pre>
+
+                    <h3>Explanation</h3>
+                    <p>{{ note["explanation"] }}</p>
+
+                    <div class="actions">
+                        <a class="button-link" href="{{ url_for('show_note', note_id=note['id']) }}">View</a>
+                        <a class="button-link" href="{{ url_for('edit_note', note_id=note['id']) }}">Edit</a>
+
+                        <form action="{{ url_for('delete_note', note_id=note['id']) }}" method="post">
+                            <button class="delete" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No notes saved yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

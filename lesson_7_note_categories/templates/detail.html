@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 16px;
+            background: #f5f5f5;
+        }
+
+        h1, h2 {
+            color: #222;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-label {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #e9f2ff;
+            color: #174a8b;
+            font-size: 14px;
+        }
+
+        a.button-link {
+            display: inline-block;
+            margin-top: 14px;
+            margin-right: 8px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #0b6efd;
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        pre {
+            background: #f0f3f7;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Note Detail</h1>
+
+    <div class="card">
+        <span class="category-label">{{ note["category_name"] }}</span>
+
+        <h2>Python Syntax</h2>
+        <pre>{{ note["syntax"] }}</pre>
+
+        <h2>Explanation</h2>
+        <p>{{ note["explanation"] }}</p>
+
+        <a class="button-link" href="{{ url_for('index') }}">Back to List</a>
+        <a class="button-link" href="{{ url_for('edit_note', note_id=note['id']) }}">Edit Note</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+[project]
+name = "python-syntax-notes-lesson-5"
+version = "0.1.0"
+description = "Lesson 5 app that adds note sorting."
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.0",
+]

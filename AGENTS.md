@@ -14,6 +14,12 @@ The repository should support this with complete lesson folders that learners ca
 
 - `lesson_1_base_app` is the clean base project.
 - `lesson_2_edit_notes` builds on the base project and adds the edit feature.
+- `lesson_3_note_details` builds on lesson 2 and adds a detail page for one note.
+- `lesson_4_search_notes` builds on lesson 3 and adds search.
+- `lesson_5_sort_notes` builds on lesson 4 and adds safe sorting.
+- `lesson_6_validation_messages` builds on lesson 5 and adds validation and error messages.
+- `lesson_7_note_categories` builds on lesson 6 and adds a second table with categories and joins.
+- `lesson_8_category_summary` builds on lesson 7 and adds SQL aggregation with `COUNT` and `GROUP BY`.
 - Each lesson folder should remain a complete small project with its own `app.py`, `templates/`, `pyproject.toml`, and `README.md`.
 - Prefer adding new learning steps as new lesson folders instead of mixing multiple lesson stages into one file.
 
