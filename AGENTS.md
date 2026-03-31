@@ -8,6 +8,14 @@ The app is meant to be easy to read, easy to extend, and useful for programming 
 ## Main Goal
 
 The app helps learners collect Python syntax examples and write down what each example does.
+The repository should support this with complete lesson folders that learners can open one by one.
+
+## Repository Structure
+
+- `lesson_1_base_app` is the clean base project.
+- `lesson_2_edit_notes` builds on the base project and adds the edit feature.
+- Each lesson folder should remain a complete small project with its own `app.py`, `templates/`, `pyproject.toml`, and `README.md`.
+- Prefer adding new learning steps as new lesson folders instead of mixing multiple lesson stages into one file.
 
 ## Audience
 
@@ -48,3 +56,4 @@ The app helps learners collect Python syntax examples and write down what each e
 - Changes should support teaching and learning first.
 - New features should stay small and easy to explain.
 - If a feature adds complexity, document why it is worth it for learners.
+- Keep lesson folders clearly separated so learners can switch directories and compare full project states.

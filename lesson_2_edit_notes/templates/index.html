@@ -17,7 +17,7 @@
             color: #222;
         }
 
-        .karte {
+        .card {
             background: white;
             border-radius: 10px;
             padding: 20px;
@@ -32,17 +32,14 @@
             font-weight: bold;
         }
 
-        textarea, input {
+        textarea {
             width: 100%;
+            min-height: 90px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 16px;
             box-sizing: border-box;
-        }
-
-        textarea {
-            min-height: 90px;
             resize: vertical;
         }
 
@@ -96,11 +93,11 @@
 </head>
 <body>
     <h1>Python Syntax Notes</h1>
-    <p>This small app lets you save Python syntax and write down what it does.</p>
+    <p>Lesson 2 adds editing to the base project.</p>
 
-    <div class="karte">
-        <!-- Step 7: Reuse the same form for create and update.
-             The route name now uses CRUD language: create instead of add. -->
+    <div class="card">
+        <!-- Step 4: Reuse the form for create and update.
+             When note_to_edit exists, the form switches into edit mode. -->
         <h2>{% if note_to_edit %}Edit Note{% else %}Create Note{% endif %}</h2>
         <form action="{% if note_to_edit %}{{ url_for('update_note', note_id=note_to_edit['id']) }}{% else %}{{ url_for('create_note') }}{% endif %}" method="post">
             <label for="syntax">Python Syntax</label>
@@ -117,20 +114,20 @@
         </form>
     </div>
 
-    <div class="karte">
+    <div class="card">
         <h2>Saved Notes</h2>
 
         {% if notes %}
             {% for note in notes %}
-                <div class="karte">
+                <div class="card">
                     <h3>Syntax</h3>
                     <pre>{{ note["syntax"] }}</pre>
 
                     <h3>Explanation</h3>
                     <p>{{ note["explanation"] }}</p>
 
-                    <!-- Step 8: Keep the action links together.
-                         This makes the update and delete actions easier to compare. -->
+                    <!-- Step 5: Add an Edit action next to Delete.
+                         This makes it easy to open one existing note in the form above. -->
                     <div class="actions">
                         <a class="button-link" href="{{ url_for('edit_note', note_id=note['id']) }}">Edit</a>
 

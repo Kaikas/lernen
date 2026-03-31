@@ -1,36 +1,37 @@
 # Simple Flask App with SQLite
 
-This example app stores small notes about Python syntax.
+This repository now contains complete lesson folders.
 
 ## Install
+
+Change into one lesson folder first, then run:
 
 ```bash
 uv sync
 ```
 
-## Run
+## Structure
 
-```bash
-uv run flask --app app run --debug
-```
+- `lesson_1_base_app`: complete base project with create, read, and delete
+- `lesson_2_edit_notes`: complete project that adds editing step by step
 
-Then open `http://127.0.0.1:5000` in your browser.
+Each lesson folder contains its own `app.py`, `templates/`, `pyproject.toml`, and `README.md`.
 
-## What the app does
+## Learning path
 
-- Create Python syntax notes
-- Read notes from a SQLite database
-- Update existing entries
-- Delete entries
+1. Change into `lesson_1_base_app`
+2. Read and run the base project
+3. Change into `lesson_2_edit_notes`
+4. Compare both folders and follow the numbered comments in lesson 2
 
 ## Learning note
 
-The CRUD structure and the edit feature are explained directly in the code with numbered comments.
-Follow the `Step 1`, `Step 2`, and later comments to learn the change piece by piece.
+Lesson 2 explains the edit feature directly in the code with numbered comments.
+This keeps the base project clean and the second lesson focused on one feature.
 
 ## Important files
 
-- `app.py`: Flask app and SQL statements
-- `templates/index.html`: user interface
-- `pyproject.toml`: project file with dependencies
-- `syntax_notes.db`: SQLite database, created automatically
+- `lesson_1_base_app/app.py`: base app
+- `lesson_1_base_app/templates/index.html`: base UI
+- `lesson_2_edit_notes/app.py`: lesson 2 app
+- `lesson_2_edit_notes/templates/index.html`: lesson 2 UI

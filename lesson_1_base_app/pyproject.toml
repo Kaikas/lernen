@@ -1,0 +1,8 @@
+[project]
+name = "python-syntax-notes-lesson-1"
+version = "0.1.0"
+description = "Lesson 1 base app for Python syntax notes."
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.0",
+]

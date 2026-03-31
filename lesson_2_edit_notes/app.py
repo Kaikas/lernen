@@ -43,19 +43,8 @@ def init_db():
     conn.close()
 
 
-# Step 1: Add a helper function for the list page.
-# This avoids repeating the same SELECT query in different routes.
-def get_all_notes():
-    conn = get_db_connection()
-    notes = conn.execute(
-        "SELECT id, syntax, explanation FROM syntax_notes ORDER BY id DESC"
-    ).fetchall()
-    conn.close()
-    return notes
-
-
-# Step 2: Add a small helper function that loads one note by its id.
-# We will use it when we open the edit form and when we save changes.
+# Step 1: Add a helper function that loads one note by its id.
+# We need it for the edit page and for the update route.
 def get_note_by_id(note_id):
     conn = get_db_connection()
     note = conn.execute(
@@ -66,23 +55,16 @@ def get_note_by_id(note_id):
     return note
 
 
-# Step 3: Add a helper that renders the page in one place.
-# The page can either show an empty create form or a filled edit form.
-def render_notes_page(note_to_edit=None):
-    return render_template(
-        "index.html",
-        notes=get_all_notes(),
-        note_to_edit=note_to_edit,
-    )
-
-
 @app.route("/")
 def index():
-    return render_notes_page()
+    conn = get_db_connection()
+    notes = conn.execute(
+        "SELECT id, syntax, explanation FROM syntax_notes ORDER BY id DESC"
+    ).fetchall()
+    conn.close()
+    return render_template("index.html", notes=notes, note_to_edit=None)
 
 
-# Step 4: Use CRUD language for creating a new note.
-# "create" is clearer than "add" because it matches common backend naming.
 @app.post("/notes/create")
 def create_note():
     syntax = request.form["syntax"].strip()
@@ -100,8 +82,8 @@ def create_note():
     return redirect(url_for("index"))
 
 
-# Step 5: Use resource-style routes for the rest of CRUD actions.
-# Each route clearly shows that it works on one note by its id.
+# Step 2: Add a route that opens one existing note in edit mode.
+# The template can then fill the form with the current values.
 @app.get("/notes/<int:note_id>/edit")
 def edit_note(note_id):
     note_to_edit = get_note_by_id(note_id)
@@ -109,11 +91,17 @@ def edit_note(note_id):
     if note_to_edit is None:
         return redirect(url_for("index"))
 
-    return render_notes_page(note_to_edit=note_to_edit)
+    conn = get_db_connection()
+    notes = conn.execute(
+        "SELECT id, syntax, explanation FROM syntax_notes ORDER BY id DESC"
+    ).fetchall()
+    conn.close()
+
+    return render_template("index.html", notes=notes, note_to_edit=note_to_edit)
 
 
-# Step 6: Keep the update route explicit and close to the SQL UPDATE statement.
-# It reads the changed form data and updates the matching database row.
+# Step 3: Add a route that saves the changed values.
+# This updates one existing note instead of creating a new one.
 @app.post("/notes/<int:note_id>/update")
 def update_note(note_id):
     syntax = request.form["syntax"].strip()
